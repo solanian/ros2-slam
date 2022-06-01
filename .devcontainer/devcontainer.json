@@ -1,0 +1,41 @@
+{
+    "name": "ros2-slam",
+    "build": {
+        "dockerfile": "Dockerfile",
+    },
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}",
+		"XAUTHORITY": "${localEnv:XAUTHORITY}",
+		"NVIDIA_VISIBLE_DEVICES": "all",
+		"NVIDIA_DRIVER_CAPABILITIES": "compute,utility,graphics",
+		"QT_X11_NO_MITSHM": "1"
+    },
+    "mounts": [
+		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+	],
+    "runArgs": [
+		"--gpus=all",
+		"--cap-add=SYS_PTRACE",
+		"--security-opt=seccomp=unconfined",
+		"--network=host",
+		"--privileged",
+		"--device=/dev/ttyUSB0"
+	],
+    "settings": {
+        "editor.detectIndentation": false,
+		"editor.insertSpaces": false,
+		"C_Cpp.default.cppStandard": "c++17",
+        "cSpell.diagnosticLevel": "Hint"
+    },
+    "remoteUser": "ros2",
+    "extensions": [
+		"ms-vscode.cpptools",
+		"ms-vscode.cmake-tools",
+		"ms-python.python",
+		"twxs.cmake",
+		"matepek.vscode-catch2-test-adapter",
+		"cschlosser.doxdocgen",
+		"streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens"
+	]
+}
