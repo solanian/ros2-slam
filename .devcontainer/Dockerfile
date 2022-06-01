@@ -37,7 +37,21 @@ RUN apt-get -qq update \
 	&& apt-get -qq upgrade
 
 RUN apt-get -qq install -y ros-humble-desktop-full 
+RUN apt-get -qq install -y python3-colcon-common-extensions
 
+# Install CMake
+ARG CMAKE_VERSION="3.21.1"
+RUN curl -L -o /tmp/cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz \
+	&& mkdir -p /tmp/cmake \
+	&& tar -xzf /tmp/cmake.tar.gz \
+		-C /tmp/cmake \
+		--strip-components 1 \
+		--exclude bin/cmake-gui        \
+		--exclude doc/cmake            \
+		--exclude "share/cmake-*/Help" \
+	&& cp -rf /tmp/cmake/* /usr \
+	&& rm -rf /tmp/cmake \
+	&& rm /tmp/cmake.tar.gz
 
 RUN usermod -l ros2 -d /home/ros2 -m "vscode" \
 	&& groupmod -n ros2 vscode \
